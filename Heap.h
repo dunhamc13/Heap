@@ -2,7 +2,8 @@
 //This was created as a public repository in an effort to master the ADT Heap for a midterm.
 //Precondition: The template item that is being passed must have functioning operators >/<.
 
-#include <vector>
+#include <vector> // for use of vectors
+#include <cmath> //for ceiling function to get height
 using namespace std;
 
 template <typename Data>
@@ -10,7 +11,7 @@ class Heap
 {
    public:
       //default constructor
-      Heap()
+      Heap() : itemCount(0)
       {}//end default constructor
       
       //overloaded constructor
@@ -20,19 +21,35 @@ class Heap
       
       //returns int value of num of items in heap
       int numItems()
-      {}//end numItems
+      {
+         return itemCount;
+      }//end numItems
       
       //returns bool value if heap is empty
       bool isEmpty()
-      {}//end isEmpty
+      {
+         if (itemCount == 0)
+            return true;
+         else
+            return false;
+      }//end isEmpty
 
       //returns int value of heap height
       int getHeight()
-      {}//end getHeight
+      {
+         return ceil(log2(itemCount + 1) -1;
+      }//end getHeight
 
       //returns value stored at heap root
       Data* peakTop()
-      {}//end peakTop
+      {
+         //check if empty
+         if (isEmpty())
+            return nullptr;
+         else
+            Data* top = &items[1];
+         return top;
+      }//end peakTop
 
       //adds an item to the heap
       bool add(const Data* newData)
@@ -49,20 +66,37 @@ class Heap
    private:
       //returns index value of left child of argument
       int getLeft(int parentIndex)
-      {}//end getLeft
+      {
+         return (2 * parentIndex) + 1;
+      }//end getLeft
       
       
       //returns index value of right child of argument
       int getRight(int parentIndex)
-      {}//end getRight
+      {
+         return (2 * parentIndex) + 2;
+      }//end getRight
       
       //returns index value of parent of argument
-      int getParent(int parentIndex)
-      {}//end getParent
+      int getParent(int childIndex)
+      {
+         if (childIndex == 1 || childIndex == 0)
+            return -1;
+         else
+            return (childIndex - 1) / 2;
+      }//end getParent
       
       //returns bool value if node is leaf
       bool isLeaf(int nodeIndex)
-      {}//end isLeaf
+      {
+         //use floor to get min value of index for leaf and itemCount to get max value of items
+         if (nodeIndex >= (floor(n / 2) + 1) && nodeIndex <= itemCount)
+            return true;
+         
+         //must not be leaf
+         else
+            return false;
+      }//end isLeaf
       
       //restores heap
       //precondition has two semi heaps
