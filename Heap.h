@@ -55,9 +55,23 @@ class Heap
       bool add(const Data* newData)
       {}//end add data to heap
       
-      //removes an item from the heap
-      bool remove(const Data* newData)
-      {}//end remove data to heap
+      //removes the minimum item from the heap
+      Data* removeMin(const Data* newData)
+      {
+         //check if empty
+         if (itemCount == 0) return nullptr;
+         
+		   // Give memory back to user
+		   Comparable *toReturn = items[1];
+         
+         //swap last item to head of heap and decrement
+		   items[1] = items[itemCount];
+		   itemCount--;
+         
+         //rebuild heap
+   		siftDown(1);
+		   return toReturn;
+      }//end remove data to heap
       
       //Destructor
       virtual ~Heap()
