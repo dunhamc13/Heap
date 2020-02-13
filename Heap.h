@@ -68,8 +68,8 @@ class Heap
 		   items[1] = items[itemCount];
 		   itemCount--;
          
-         //rebuild heap
-   		siftDown(1);
+         //rebuild heap this is a trickle down
+   		heapRebuild(1);
 		   return toReturn;
       }//end remove data to heap
       
@@ -81,14 +81,16 @@ class Heap
       //returns index value of left child of argument
       int getLeft(int parentIndex)
       {
-         return (2 * parentIndex) + 1;
+	 //due to adding a dummy node at index 0 these forumulas don't need off by 1 manipulation.
+         return (2 * parentIndex);//normally + 1
       }//end getLeft
       
       
       //returns index value of right child of argument
       int getRight(int parentIndex)
       {
-         return (2 * parentIndex) + 2;
+	  //due to adding a dummy node at index 0 these forumulas don't need off by 1 manipulation.
+         return (2 * parentIndex) + 1;//normall + 2
       }//end getRight
       
       //returns index value of parent of argument
@@ -97,7 +99,8 @@ class Heap
          if (childIndex == 1 || childIndex == 0)
             return -1;
          else
-            return (childIndex - 1) / 2;
+	    //due to adding a dummy node at index 0 these forumulas don't need off by 1 manipulation.		 
+            return childIndex / 2;(normally child
       }//end getParent
       
       //returns bool value if node is leaf
