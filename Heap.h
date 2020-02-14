@@ -33,20 +33,20 @@ class Heap
             //use legacy insert function
             this->insert(copyData);
         }//end for copy items
-	}//end copyHeap Constructor
+       }//end copyHeap Constructor
+
 	
-   //Dunham------------------------------------------------------------------
 	// operator= Constructor  
-    //  you can not just pass the new node = old node.  This will cause double free
-    // of destructor.
-    //
-    // This function overloads operator= for heaps.  It starts by making
-    // sure that LHS and RHS don't have same address.  Next, it makes sure that
-    // the LHS is empty.  Then it copies RHS to LHS.
-    // 
+        //  you can not just pass the new node = old node.  This will cause double free
+        // of destructor.
+        //
+        // This function overloads operator= for heaps.  It starts by making
+        // sure that LHS and RHS don't have same address.  Next, it makes sure that
+        // the LHS is empty.  Then it copies RHS to LHS.
+        // 
 	// Preconditions: a heap exists
 	// Postconditions: creates a copy of a heap.
-	Heap* operator=(Heap &aHeap) 
+	Heap& operator=(Heap &aHeap) 
         {
 	      //Check addy's both sides not equal
 	      if (this != &aHeap)
@@ -72,10 +72,9 @@ class Heap
 		    *copyData = *aHeap.items[i];
 
 		    //use legacy insert function
-		    this->insert(c);
+		    this->insert(copyData);
 		 }//end for copy items
 	      }//end if LHS is not RHS
-
 	      return this; 
 	}//end operator=
 	
@@ -102,6 +101,20 @@ class Heap
 	      this->heapify();
       }//end overloaded constructor
       
+      //Heap Sort
+      void heapSort()
+      {
+	  //make sure you have a heap
+          this->heapify();
+	      
+	  //partition vector
+	  for  (int i = itemsCount; i >= 1; i--)
+	  {
+              swap(items[1], items[i]);
+	      this->heapify;
+	  }//end while partitioning
+      }//end heapSort
+	
       //returns int value of num of items in heap
       int numItems()
       {
