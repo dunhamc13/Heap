@@ -1,5 +1,6 @@
 //This class was modeled off of a partially created Class by Professor Olson of the UWB and from Carrano/Henry.
 //This was created as a public repository in an effort to master the ADT Heap for a midterm.
+//This class is not homework or Student Ethics bound.  This is me, playing with what I've learned to master it.
 //Precondition: The template item that is being passed must have functioning operators >/<.
 
 #include <vector> // for use of vectors
@@ -14,10 +15,92 @@ class Heap
       Heap() : itemCount(0)
       {}//end default constructor
       
+      // copy Constructor
+      // Preconditions: a heap exists
+      // Postconditions: creates a copy of a heap.
+      Heap(const Heap &aHeap)
+      {
+        //get size to run for loop
+        int size = aHeap.items.size();
+
+        //for (size) copy items...
+        for (int i = 1; i < size; i++)
+        {
+            //make anew node and get values for it.  don't share addy's with old node
+            Data* copyData = new Data();
+            *copyData = *aHeap.items[i];
+
+            //use legacy insert function
+            this->insert(copyData);
+        }//end for copy items
+	}//end copyHeap Constructor
+	
+   //Dunham------------------------------------------------------------------
+	// operator= Constructor  
+    //  you can not just pass the new node = old node.  This will cause double free
+    // of destructor.
+    //
+    // This function overloads operator= for heaps.  It starts by making
+    // sure that LHS and RHS don't have same address.  Next, it makes sure that
+    // the LHS is empty.  Then it copies RHS to LHS.
+    // 
+	// Preconditions: a heap exists
+	// Postconditions: creates a copy of a heap.
+	Heap* operator=(Heap &aHeap) 
+        {
+	      //Check addy's both sides not equal
+	      if (this != &aHeap)
+	      {
+		 //if LHS has elements, make space
+		 if (this->itemsCount > 0)
+		 {
+		    destroyHeap(items);
+		 }//end if not empty then empty LHS 
+
+		 //get size to run for loop
+		 int size = aHeap.items.size();
+
+		 //must push back a nullptr first else we get vector range/bounds errors 
+		 //this is due to how the heap driver creates a dummy at index 0
+		 items.push_back(nullptr);
+
+		 //for (size) copy items...
+		 for (int i = 1; i < size; i++)
+		 {
+		    //make anew node and get values for it.  don't share addy's with old node
+		    Data *copyData = new Data();
+		    *copyData = *aHeap.items[i];
+
+		    //use legacy insert function
+		    this->insert(c);
+		 }//end for copy items
+	      }//end if LHS is not RHS
+
+	      return this; 
+	}//end operator=
+	
       //overloaded constructor
       //preconditions need a pointer to an array of items, with the number of items to heapify
-      Heap(Data** array, int itemCount)
-      {}//end overloaded constructor
+      Heap(Data** array, int numItems)
+      {
+	      //must push back a nullptr first else we get vector range/bounds errors 
+	      //this is due to how the heap driver creates a dummy at index 0
+	      items.push_back(nullptr);
+
+	      //First loop through array, only the number times as the size of the array.
+	      for (int i = 0; i < numItems; i++)
+	      {
+		 //Make a static Comparable from the array and store it in items.
+		 Data* newData = array[i];
+		 items.push_back(newData);
+	      }//end for copy array
+
+	      //must set numElements to count - which represents the number of elements
+	      this->itemsCount = numItems;
+
+	      //use heapify function to ensure items are in heap order.
+	      this->heapify();
+      }//end overloaded constructor
       
       //returns int value of num of items in heap
       int numItems()
@@ -67,7 +150,7 @@ class Heap
 	      while ((int) items.size() <= itemsCount)
 		      items.push_back(nullptr);
 	      
-	      // Percolate up
+	      // bubbleUp
 	      int position = itemsCount;
 	      while (*newData < *items[position / 2]) 
 	      {
@@ -92,17 +175,17 @@ class Heap
 	 itemCount--;
          
          //rebuild heap this is a trickle down
-   	 heapRebuild(1);
+   	 bubbleDown(1);
          return toReturn;
       }//end remove data to heap
       
       //creates a heap
       //precondition array of items and space created for items
-      void heapCreate()
+      void heapify()
       {
 	      //
 	      for (int i = itemsCount / 2; i > 0; i--)
-		      heapRebuild(i);
+		      bubbleDown(i);
       }//end heapRebuild
 	
       //Destructor
@@ -149,7 +232,7 @@ class Heap
       
       //restores heap
       //precondition has two semi heaps
-      void heapRebuild(int position)
+      void bubbleDown(int position)
       {
 	      //get child position
 	      int child = position * 2;
@@ -166,7 +249,7 @@ class Heap
 	      {
 		      swap(items[child], items[position]);
 		      //recursive call
-		      heapRebuild(child);
+		      bubbleDown(child);
 	      }//end swap
       }//end heapRebuild
       
