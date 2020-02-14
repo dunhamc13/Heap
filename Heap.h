@@ -37,7 +37,7 @@ class Heap
       //returns int value of heap height
       int getHeight()
       {
-         return ceil(log2(itemCount + 1) -1;
+         return ceil(log2(itemCount) -1);//normally itemCount + 1 if no off by one fix
       }//end getHeight
 
       //returns value stored at heap root
@@ -100,7 +100,7 @@ class Heap
             return -1;
          else
 	    //due to adding a dummy node at index 0 these forumulas don't need off by 1 manipulation.		 
-            return childIndex / 2;(normally child
+            return childIndex / 2;//(parent index -1) /2 ** modified for dummy 0 insert fixes off by one
       }//end getParent
       
       //returns bool value if node is leaf
