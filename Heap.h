@@ -52,27 +52,59 @@ class Heap
       }//end peakTop
 
       //adds an item to the heap
-      bool add(const Data* newData)
-      {}//end add data to heap
+      void add(Data* newData)
+      {		
+	      //check for null value
+	      if (newData == NULL) 
+		      return;
+	      
+	      // Add item in position 0 (dummy position) to prevent percolating up from root 
+	      if (items.size() < 1) items.push_back(c);
+	      else items[0] = newData;
+	      
+	      // Ensure we have enough space
+	      itemsCount++;
+	      while ((int) items.size() <= itemsCount)
+		      items.push_back(nullptr);
+	      
+	      // Percolate up
+	      int position = itemsCount;
+	      while (*newData < *items[position / 2]) 
+	      {
+		      items[position] = items[position / 2];
+		      position = position / 2;
+	      }
+	      items[position] = newData;
+      }//end add data to heap
       
       //removes the minimum item from the heap
-      Data* removeMin(const Data* newData)
+      Data* removeMin()
       {
+	 //
          //check if empty
-         if (itemCount == 0) return nullptr;
-         
-		   // Give memory back to user
-		   Comparable *toReturn = items[1];
+         if (itemCount == 0) 
+		 return nullptr;
+         // Give memory back to user
+	 Comparable *toReturn = items[1];
          
          //swap last item to head of heap and decrement
-		   items[1] = items[itemCount];
-		   itemCount--;
+         items[1] = items[itemCount];
+	 itemCount--;
          
          //rebuild heap this is a trickle down
-   		heapRebuild(1);
-		   return toReturn;
+   	 heapRebuild(1);
+         return toReturn;
       }//end remove data to heap
       
+      //creates a heap
+      //precondition array of items and space created for items
+      void heapCreate()
+      {
+	      //
+	      for (int i = itemsCount / 2; i > 0; i--)
+		      heapRebuild(i);
+      }//end heapRebuild
+	
       //Destructor
       virtual ~Heap()
       {}//end destructor
@@ -117,13 +149,28 @@ class Heap
       
       //restores heap
       //precondition has two semi heaps
-      void heapRebuild()
-      {}//end heapRebuild
+      void heapRebuild(int position)
+      {
+	      //get child position
+	      int child = position * 2;
+	      
+	      //make sure child exists
+	      if (child > itemsCount) 
+		      return;
+	      
+	      //get largest value for child
+	      if (child != itemsCount && *items[child] > *items[child + 1]) 
+		      child++;
+	      //for minHeap make sure child isn't smaller than parent
+	      if (*items[child] < *items[position]) 
+	      {
+		      swap(items[child], items[position]);
+		      //recursive call
+		      heapRebuild(child);
+	      }//end swap
+      }//end heapRebuild
       
-      //creates a heap
-      //precondition array of items
-      void heapCreate()
-      {}//end heapRebuild
+
       
       //desrtuctor helper
       void clear(vector<Data*> aVector)
