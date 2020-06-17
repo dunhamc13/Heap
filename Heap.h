@@ -70,16 +70,17 @@ class Heap
        }//end copyHeap Constructor
 
 	
-	// operator= Constructor  
-        //  you can not just pass the new node = old node.  This will cause double free
-        // of destructor.
-        //
-        // This function overloads operator= for heaps.  It starts by making
-        // sure that LHS and RHS don't have same address.  Next, it makes sure that
-        // the LHS is empty.  Then it copies RHS to LHS.
-        // 
-	// Preconditions: a heap exists
-	// Postconditions: creates a copy of a heap.
+	/* operator= Constructor  
+         *  you can not just pass the new node = old node.  This will cause double free
+         * of destructor.
+         *
+         * This function overloads operator= for heaps.  It starts by making
+         * sure that LHS and RHS don't have same address.  Next, it makes sure that
+         * the LHS is empty.  Then it copies RHS to LHS.
+         * 
+	 * Preconditions: a heap exists
+	 * Postconditions: creates a copy of a heap.
+	*/
 	Heap& operator=(Heap &aHeap) 
         {
 	      //Check addy's both sides not equal
