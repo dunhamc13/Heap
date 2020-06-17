@@ -1,7 +1,40 @@
-//This class was modeled off of a partially created Class by Professor Olson of the UWB and from Carrano/Henry.
-//This was created as a public repository in an effort to master the ADT Heap for a midterm.
-//This class is not homework or Student Ethics bound.  This is me, playing with what I've learned to master it.
-//Precondition: The template item that is being passed must have functioning operators >/<.
+/* Notes About File
+ * @File: heap.h
+ * @Name: Christian Dunham
+ * @Date: 25May2020
+ * @Program Name:  NA - for reuse
+ *
+ * Program Purpose: NA
+ *    This class was created to help master the concept of heaps.
+ *
+ * Design Rational:  
+ *    Using a template for modularity. The template item that is being passed 
+ *     must have functioning operators >/<.
+ *
+ * Dynamic Memory:
+ *
+ *******************************************************************************
+ *******************************************************************************
+ *
+ *                        Special Cases Identified
+ *
+ *******************************************************************************
+ *
+ *******************************************************************************
+ *Product BackLog :
+ *
+ *******************************************************************************
+ *
+ *******************************************************************************
+ * Code Outline :
+ *
+ ******************************************************************************* 
+ *
+ *                        Included Libraries
+ *
+ *******************************************************************************
+ *******************************************************************************
+*/
 
 #include <vector> // for use of vectors
 #include <cmath> //for ceiling function to get height
@@ -15,9 +48,10 @@ class Heap
       Heap() : itemCount(0)
       {}//end default constructor
       
-      // copy Constructor
-      // Preconditions: a heap exists
-      // Postconditions: creates a copy of a heap.
+      /* copy Constructor
+       * Preconditions: a heap exists
+       * Postconditions: creates a copy of a heap.
+      */
       Heap(const Heap &aHeap)
       {
         //get size to run for loop
